@@ -1,7 +1,15 @@
 // src/app/page.tsx
+import { ThemeToggleButton } from "@/components/ThemeToggleButton";
 
 export default function Home() {
   return (
+    // ライトモードの背景色とダークモードの背景色をbodyではなく、一番外側のdivに適用するのが一般的です
+    <div className="bg-light-background text-light-text-primary dark:bg-dark-background dark:text-dark-text-primary min-h-screen">
+      
+      {/* 変更点2: ボタンを配置 */}
+      <div className="p-4 flex justify-end">
+        <ThemeToggleButton />
+      </div>
     <main className="flex min-h-screen flex-col items-center justify-center p-8">
       
       {/* ブログタイトル */}
@@ -34,5 +42,6 @@ export default function Home() {
       </div>
 
     </main>
+    </div>
   );
 }
