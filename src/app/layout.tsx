@@ -3,8 +3,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-// 【変更点 1】作成したThemeProviderをインポートします
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { Header } from "@/components/Header";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -22,8 +22,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    // 【変更点 2】手動で設定していた className="light" を削除し、
-    // next-themesが必要とする `suppressHydrationWarning` を追加します
     <html lang="ja" suppressHydrationWarning>
       <body
         // ここのクラス指定は変更不要です
@@ -31,17 +29,14 @@ export default function RootLayout({
                    bg-white text-gray-800 dark:bg-gray-800 dark:text-gray-100
                    transition-colors duration-300`}
       >
-        {/*
-          【変更点 3】bodyタグ直下で、childrenをThemeProviderで囲みます。
-          これにより、サイト全体でテーマ機能が有効になります。
-        */}
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <Header />
+          <main>{children}</main>{/* childrenをmainタグで囲むと、より構造的になります */}
         </ThemeProvider>
       </body>
     </html>
