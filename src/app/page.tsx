@@ -1,42 +1,63 @@
 // src/app/page.tsx
 
+import { ArticleCard } from "@/components/ArticleCard";
+import type { Article } from "@/types/article";
+
+// --- ステップ1: 仮の記事データを作成 ---
+// 本来はデータベースなどから取得しますが、ここでは仮の配列を用意します。
+const dummyArticles: Article[] = [
+  {
+    id: 'how-to-build-blog-with-nextjs',
+    title: 'Next.js と Tailwind CSS でブログを構築する',
+    date: '2025-06-30',
+    category: 'Web開発',
+    imageUrl: '/images/nextjs-card.png',
+    description: '最新の技術スタックを使って、モダンで高速なブログサイトをゼロから作成する方法を解説します。',
+  },
+  {
+    id: 'atcoder-beginner-guide',
+    title: 'AtCoder初心者が緑になるまでにやったこと',
+    date: '2025-06-28',
+    category: 'AtCoder',
+    imageUrl: '/images/atcoder-card.png',
+    description: '競プロ初心者が効率的に学習を進めるためのロードマップと、コンテストで結果を出すためのコツを紹介。',
+  },
+  {
+    id: 'toeic-score-up-strategy',
+    title: 'TOEIC L&R Test 900点を超えるための学習戦略',
+    date: '2025-06-25',
+    category: 'TOEIC',
+    imageUrl: '/images/toeic-card.png',
+    description: '単語学習から模試の活用法まで、スコアを最大化するための具体的な勉強法と時間管理術を公開します。',
+  },
+  // 新しい記事をここに追加できます
+];
+
+
 export default function Home() {
   return (
-    // ライトモードの背景色とダークモードの背景色をbodyではなく、一番外側のdivに適用するのが一般的です
-    <div className="bg-light-background text-light-text-primary dark:bg-dark-background dark:text-dark-text-primary min-h-screen">
+    // containerクラスなどで中央寄せと最大幅を設定します
+    <div className="container mx-auto max-w-screen-lg px-4 py-8">
       
-    <main className="flex min-h-screen flex-col items-center justify-center p-8">
-      
-      {/* ブログタイトル */}
-      <h1 className="text-4xl md:text-6xl font-extrabold mb-4 text-light-accent dark:text-dark-accent">
-        塵積学舎
-      </h1>
-      
-      {/* 副題 */}
-      <p className="text-lg md:text-xl mb-8 text-light-text-secondary dark:text-dark-text-secondary">
-        日々の学習記録と発見
-      </p>
-
-      {/* アクセントカラーのボタンの例 */}
-      <button className="bg-light-accent text-white py-3 px-6 rounded-full shadow-lg
-                         hover:bg-light-accent/[0.9] dark:bg-dark-accent dark:hover:bg-dark-accent/[0.9]
-                         transition-colors duration-200">
-        記事一覧を見る
-      </button>
-
-      {/* 白い背景のカードの例（ライトモードで白、ダークモードでダーク背景） */}
-      <div className="mt-12 p-8 rounded-xl shadow-xl max-w-md w-full text-center
-                      bg-white dark:bg-dark-bg border border-light-border dark:border-dark-border">
-        <h2 className="text-2xl font-bold mb-4 text-light-text-primary dark:text-dark-text-primary">
-          はじめに
+      {/* --- 新着記事セクション --- */}
+      <section>
+        <h2 className="mb-6 text-2xl font-bold text-light-text-primary dark:text-dark-text-primary">
+          新着記事
         </h2>
-        <p className="text-light-text-primary dark:text-dark-text-primary">
-          このサイトは、私の学習の足跡を記録し、その知見を共有するための場所です。
-          共に学びを深めていきましょう。
-        </p>
-      </div>
+        
+        {/* --- ステップ2: Gridレイアウトで記事カードを一覧表示 --- */}
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          
+          {/* --- ステップ3: map関数でデータ配列からカードを繰り返し生成 --- */}
+          {dummyArticles.map((article) => (
+            <ArticleCard key={article.id} article={article} />
+          ))}
 
-    </main>
+        </div>
+      </section>
+
+      {/* 今後、ここに「人気記事」セクションなどを追加していくことになります */}
+      
     </div>
   );
 }
