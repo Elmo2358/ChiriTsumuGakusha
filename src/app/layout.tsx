@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -25,19 +26,23 @@ export default function RootLayout({
     <html lang="ja" suppressHydrationWarning>
       <body
         // ここのクラス指定は変更不要です
-        className={`${inter.variable} antialiased
-                   bg-white text-gray-800 dark:bg-gray-800 dark:text-gray-100
-                   transition-colors duration-300`}
+        className={`${inter.variable} antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Header />
-          <main>{children}</main>{/* childrenをmainタグで囲むと、より構造的になります */}
-        </ThemeProvider>
+       <div className="flex flex-col min-h-screen bg-light-bg text-light-text-primary dark:bg-dark-bg dark:text-dark-text-primary">
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Header />
+            {/* 【変更点 3】mainタグが残りの高さをすべて埋めるようにする */}
+            <main className="flex-grow">{children}</main>
+            
+            {/* 【変更点 4】mainタグの後にFooterを配置 */}
+            <Footer />
+          </ThemeProvider>
+        </div>
       </body>
     </html>
   );

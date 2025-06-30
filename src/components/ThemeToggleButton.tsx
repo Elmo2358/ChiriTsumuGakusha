@@ -11,7 +11,9 @@ export function ThemeToggleButton() {
   const [mounted, setMounted] = React.useState(false);
   React.useEffect(() => setMounted(true), []);
   if (!mounted) {
-    return null;
+    return (
+      <div className="p-2 w-10 h-10 rounded-md animate-pulse bg-gray-200 dark:bg-gray-700" />
+    );
   }
 
   return (
