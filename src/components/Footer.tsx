@@ -16,6 +16,9 @@ export function Footer() {
           <Link href="/privacy" className="hover:text-light-text-primary dark:hover:text-dark-text-primary">
             プライバシーポリシー
           </Link>
+          <Link href="/admin/login" className="hover:text-light-text-primary dark:hover:text-dark-text-primary">
+            管理者用
+          </Link>
         </div>
 
         {/* 右側のコピーライト */}
