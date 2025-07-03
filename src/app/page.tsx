@@ -1,66 +1,12 @@
 // src/app/page.tsx
 
 import { ArticleCard } from "@/components/ArticleCard";
+import { dummyArticles, dummyPopularArticles } from "@/data/article";
 import type { Article } from "@/types/article";
 
 // --- ステップ1: 仮の記事データを作成 ---
 // 本来はデータベースなどから取得しますが、ここでは仮の配列を用意します。
-const dummyArticles: Article[] = [
-  {
-    id: 'how-to-build-blog-with-nextjs',
-    title: 'Next.js と Tailwind CSS でブログを構築する',
-    date: '2025-06-30',
-    category: 'Web開発',
-    imageUrl: '/images/nextjs-card.png',
-    description: '最新の技術スタックを使って、モダンで高速なブログサイトをゼロから作成する方法を解説します。',
-  },
-  {
-    id: 'atcoder-beginner-guide',
-    title: 'AtCoder初心者が緑になるまでにやったこと',
-    date: '2025-06-28',
-    category: 'AtCoder',
-    imageUrl: '/images/atcoder-card.png',
-    description: '競プロ初心者が効率的に学習を進めるためのロードマップと、コンテストで結果を出すためのコツを紹介。',
-  },
-  {
-    id: 'toeic-score-up-strategy',
-    title: 'TOEIC L&R Test 900点を超えるための学習戦略',
-    date: '2025-06-25',
-    category: 'TOEIC',
-    imageUrl: '/images/toeic-card.png',
-    description: '単語学習から模試の活用法まで、スコアを最大化するための具体的な勉強法と時間管理術を公開します。',
-  },
-  // 新しい記事をここに追加できます
-];
 
-// 人気記事用の仮データ（後で使います）
-const dummyPopularArticles: Article[] = [
-  // 人気順に並び替えたデータ
-  {
-    id: 'atcoder-beginner-guide',
-    title: 'AtCoder初心者が緑になるまでにやったこと',
-    date: '2025-06-28',
-    category: 'AtCoder',
-    imageUrl: '/images/atcoder-card.png',
-    description: '競プロ初心者が効率的に学習を進めるためのロードマップと、コンテストで結果を出すためのコツを紹介。',
-  },
-  {
-    id: 'how-to-build-blog-with-nextjs',
-    title: 'Next.js と Tailwind CSS でブログを構築する',
-    date: '2025-06-30',
-    category: 'Web開発',
-    imageUrl: '/images/nextjs-card.png',
-    description: '最新の技術スタックを使って、モダンで高速なブログサイトをゼロから作成する方法を解説します。',
-  },
-  {
-    id: 'toeic-score-up-strategy',
-    title: 'TOEIC L&R Test 900点を超えるための学習戦略',
-    date: '2025-06-25',
-    category: 'TOEIC',
-    imageUrl: '/images/toeic-card.png',
-    description: '単語学習から模試の活用法まで、スコアを最大化するための具体的な勉強法と時間管理術を公開します。',
-  },
-]
 
 export default function Home() {
   return (
