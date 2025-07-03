@@ -1,11 +1,9 @@
-// src/app/layout.tsx
+// src/app/layout.tsx (修正後)
 
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -24,25 +22,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja" suppressHydrationWarning>
-      <body
-        // ここのクラス指定は変更不要です
-        className={`${inter.variable} antialiased`}
-      >
-       <div className="flex flex-col min-h-screen bg-light-bg text-light-text-primary dark:bg-dark-bg dark:text-dark-text-primary">
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <Header />
-            {/* 【変更点 3】mainタグが残りの高さをすべて埋めるようにする */}
-            <main className="flex-grow">{children}</main>
-            
-            {/* 【変更点 4】mainタグの後にFooterを配置 */}
-            <Footer />
-          </ThemeProvider>
-        </div>
+      <body className={`${inter.variable} antialiased`}>
+        {/* ThemeProviderは両方のレイアウトで共通して使いたいため、ルートに残します */}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
