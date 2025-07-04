@@ -1,9 +1,31 @@
-/// src/app/admin/login/page.tsx
-import { LogIn } from 'lucide-react';
+// src/app/admin/login/page.tsx
+"use client";
+
+import { useState } from "react";
+import { useRouter } from 'next/navigation'; // App Router用
+import { LogIn } from "lucide-react";
 
 export default function AdminLoginPage() {
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const router = useRouter();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault(); //ページリロードを防止
+
+    // 仮のパスワードを"password"とする
+    if (password == 'password') {
+      //成功した場合、ダッシュボードにリダイレクト
+      router.push('/admin');
+    } else {
+      //失敗した場合、エラーメッセージを表示
+      setError('パスワードが正しくありません。')
+      setPassword('');//　入力欄をクリア
+    }
+  };
+
   return (
-    <div className="w-full max-w-sm rounded-lg bg-light-bg p-8 shadow-xl dark:bg-dark-bg">
+   <div className="w-full max-w-sm rounded-lg bg-light-bg p-8 shadow-xl dark:bg-dark-bg">
       <div className="text-center">
         <h1 className="text-2xl font-bold text-light-text-primary dark:text-dark-text-primary">
           管理者ログイン
@@ -13,7 +35,7 @@ export default function AdminLoginPage() {
         </p>
       </div>
 
-      <form className="mt-8 space-y-6">
+      <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="password" className="sr-only">
             パスワード
@@ -25,8 +47,15 @@ export default function AdminLoginPage() {
             required
             className="relative block w-full rounded-md border-gray-300 bg-gray-100 px-3 py-2 text-gray-900 placeholder-gray-500 shadow-sm focus:z-10 focus:border-green-500 focus:outline-none focus:ring-green-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-400 dark:focus:ring-green-400"
             placeholder="パスワード"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
+
+        {/* エラーメッセージ表示エリア */}
+        {error && (
+          <p className="text-sm text-red-500 text-center">{error}</p>
+        )}
 
         <div>
           <button
