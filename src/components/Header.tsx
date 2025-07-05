@@ -1,7 +1,7 @@
 // src/components/Header.tsx
 "use client";
 
-import Link from "next/link";
+import { LoadingLink } from "@/components/LoadingLink"; 
 import { ThemeToggleButton } from "@/components/ThemeToggleButton";
 import { Sidebar } from "@/components/Sidebar"; // Sidebarコンポーネントを再度インポート
 import { useState } from "react";
@@ -31,9 +31,9 @@ export function Header() {
     <>
       <header className="bg-light-bg py-4 dark:bg-dark-bg">
         <div className="container mx-auto flex items-center justify-between px-4">
-          <Link href="/" className="font-bold text-xl text-light-text-primary dark:text-dark-text-primary">
+          <LoadingLink href="/" className="font-bold text-xl text-light-text-primary dark:text-dark-text-primary">
             塵積学舎
-          </Link>
+          </LoadingLink>
           <nav className="flex items-center space-x-2 md:space-x-4">
             {/* 検索バー (スマホでは非表示) */}
             <div className="relative hidden md:block">

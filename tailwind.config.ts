@@ -72,7 +72,16 @@ const config: Config = {
         },
       },
     }),
-    // ここでextendの閉じカッコ
+    
+    keyframes: {
+        wave: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' },
+        },
+      },
+      animation: {
+        wave: 'wave 1.4s infinite',
+      },
     },
   },
   plugins: [

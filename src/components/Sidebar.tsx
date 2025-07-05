@@ -2,7 +2,7 @@
 
 "use client";
 
-import Link from "next/link";
+import { LoadingLink } from "@/components/LoadingLink";
 import { X, Code, Mic, Rss, Github, Twitter } from 'lucide-react'; // アイコンをインポート
 
 // サイドバーコンポーネントのProps（プロパティ）の型を定義
@@ -41,10 +41,10 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
         {/* ナビゲーションリンク */}
         <nav className="mt-6">
           <ul className="space-y-2">
-            <li><Link href="/about" className="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800" onClick={onClose}><Rss className="h-5 w-5" /><span>「本サイトの説明・使い方</span></Link></li>
-            <li><Link href="/categories/web-dev" className="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800" onClick={onClose}><Code className="h-5 w-5" /><span>Web開発</span></Link></li>
-            <li><Link href="/categories/atcoder" className="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800" onClick={onClose}><Code className="h-5 w-5" /><span>AtCoder</span></Link></li>
-            <li><Link href="/categories/toeic" className="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800" onClick={onClose}><Mic className="h-5 w-5" /><span>TOEIC</span></Link></li>
+            <li><LoadingLink href="/about" className="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800" onClick={onClose}><Rss className="h-5 w-5" /><span>「本サイトの説明・使い方</span></LoadingLink></li>
+            <li><LoadingLink href="/categories/web-dev" className="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800" onClick={onClose}><Code className="h-5 w-5" /><span>Web開発</span></LoadingLink></li>
+            <li><LoadingLink href="/categories/atcoder" className="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800" onClick={onClose}><Code className="h-5 w-5" /><span>AtCoder</span></LoadingLink></li>
+            <li><LoadingLink href="/categories/toeic" className="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800" onClick={onClose}><Mic className="h-5 w-5" /><span>TOEIC</span></LoadingLink></li>
           </ul>
         </nav>
 

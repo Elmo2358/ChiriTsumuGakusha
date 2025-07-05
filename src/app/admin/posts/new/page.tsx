@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import MDEditor from "@uiw/react-md-editor";
 import { useTheme } from "next-themes";
 import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
+import { LoadingLink } from "@/components/LoadingLink";
 
 export default function NewPostPage() {
   const [title, setTitle] = useState("");
@@ -29,13 +29,13 @@ export default function NewPostPage() {
         <h1 className="text-3xl font-bold text-light-text-primary dark:text-dark-text-primary">
           新しい記事を作成
         </h1>
-        <Link
+        <LoadingLink
           href="/admin/posts"
           className="flex items-center gap-2 rounded-md border bg-gray-50 px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
         >
           <ArrowLeft className="h-4 w-4" />
                 一覧に戻る
-        </Link>
+        </LoadingLink>
       </div>
 
       <form className="space-y-6">

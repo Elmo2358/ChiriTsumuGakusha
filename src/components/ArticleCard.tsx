@@ -1,7 +1,7 @@
 // src/components/ArticleCard.tsx
 
 import Image from "next/image";
-import Link from "next/link";
+import { LoadingLink } from "@/components/LoadingLink";
 import { Calendar, Tag, Crown } from "lucide-react";
 import type { Article } from "@/types/article";
 // このコンポーネントが受け取るPropsの型を定義します
@@ -19,7 +19,7 @@ export function ArticleCard({ article, rank }: ArticleCardProps) {
     "text-transparent"; // 4位以下は透明
   return (
     // リンク先を記事のIDに応じた動的なものに変更します
-    <Link href={`/posts/${article.id}`} className="block group">
+    <LoadingLink href={`/posts/${article.id}`} className="block group">
       <div className="relative overflow-hidden rounded-lg border bg-light-bg shadow-md transition-all duration-300 ease-in-out hover:shadow-xl dark:border-dark-border dark:bg-dark-bg">
         {rank && rank <= 3 && (
           <div className="absolute top-0 left-0 z-10 flex items-center space-x-1 bg-black/60 px-2.5 py-1 rounded-br-lg">
@@ -63,6 +63,6 @@ export function ArticleCard({ article, rank }: ArticleCardProps) {
           </div>
         </div>
       </div>
-    </Link>
+    </LoadingLink>
   );
 }

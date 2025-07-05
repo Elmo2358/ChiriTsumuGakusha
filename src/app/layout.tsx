@@ -1,9 +1,13 @@
-// src/app/layout.tsx (修正後)
+// src/app/layout.tsx
 
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { LoadingProvider, useLoading } from "@/context/LoadingContext";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
+import { RouteChangeListener } from "@/components/RouteChangeListener";
+import { AppWrapper } from "@/components/AppWrapper";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -15,6 +19,18 @@ export const metadata: Metadata = {
   description: "日々の学習記録と発見",
 };
 
+// ローディング状態に応じてスピナーを表示するコンポーネント
+function AppContent({ children }: { children: React.ReactNode }) {
+  const { isLoading } = useLoading();
+  return (
+    <>
+      <RouteChangeListener />
+      {isLoading && <LoadingSpinner />}
+      {children}
+    </>
+  );
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -23,14 +39,16 @@ export default function RootLayout({
   return (
     <html lang="ja" suppressHydrationWarning>
       <body className={`${inter.variable} antialiased`}>
-        {/* ThemeProviderは両方のレイアウトで共通して使いたいため、ルートに残します */}
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          {/* LoadingProviderがAppContentを囲んでいることを確認 */}
+          <LoadingProvider>
+            <AppWrapper>{children}</AppWrapper>
+          </LoadingProvider>
         </ThemeProvider>
       </body>
     </html>

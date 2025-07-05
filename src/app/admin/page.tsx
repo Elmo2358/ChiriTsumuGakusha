@@ -1,5 +1,6 @@
 import { PlusCircle, BarChart2, BookOpen, Home } from "lucide-react";
-import Link from "next/link";
+import { LoadingLink } from "@/components/LoadingLink";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
 
 export default function AdminDashboardPage() {
     return (
@@ -13,18 +14,18 @@ export default function AdminDashboardPage() {
                 ようこそ、サイト管理者様。
               </p>
             </div>
-            <Link
+            <LoadingLink
             href="/"
             className="flex items-center gap-2 rounded-md border bg-gray-50 px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
             >
               <Home className="h-4 w-4" />
               メインサイトへ
-            </Link>
+            </LoadingLink>
           </div>
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {/* 新規記事作成カード */}
-        <Link
+        <LoadingLink
           href="/admin/posts/new"
           className="flex flex-col items-center justify-center rounded-lg bg-gray-50 p-6 text-center transition-all hover:shadow-lg hover:scale-105 dark:border-gray-700 dark:bg-gray-800 border-light-border border-4"
         >
@@ -32,10 +33,10 @@ export default function AdminDashboardPage() {
           <p className="mt-4 font-semibold text-light-text-primary dark:text-dark-text-primary">
             新しい記事を作成
           </p>
-        </Link>
+        </LoadingLink>
 
         {/* 記事管理カード */}
-        <Link
+        <LoadingLink
           href="/admin/posts"
           className="flex flex-col items-center justify-center rounded-lg bg-gray-50 p-6 text-center transition-all hover:shadow-lg hover:scale-105 dark:border-gray-700 dark:bg-gray-800 border-light-border border-4"
         >
@@ -43,10 +44,10 @@ export default function AdminDashboardPage() {
           <p className="mt-4 font-semibold text-light-text-primary dark:text-dark-text-primary">
             記事を管理
           </p>
-        </Link>
+        </LoadingLink>
 
         {/* データ分析カード */}
-        <Link
+        <LoadingLink
           href="/admin/analytics"
           className="flex flex-col items-center justify-center rounded-lg bg-gray-50 p-6 text-center transition-all hover:shadow-lg hover:scale-105 dark:border-gray-700 dark:bg-gray-800 border-light-border border-4"
         >
@@ -54,7 +55,7 @@ export default function AdminDashboardPage() {
           <p className="mt-4 font-semibold text-light-text-primary dark:text-dark-text-primary">
             データ分析
           </p>
-        </Link>
+        </LoadingLink>
       </div>
     </div>
     );

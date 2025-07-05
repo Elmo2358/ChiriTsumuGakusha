@@ -2,8 +2,7 @@
 
 import { dummyArticles } from "@/data/article";
 import { ArrowLeft, Edit, Trash2 } from "lucide-react";
-import Link from "next/link";
-
+import { LoadingLink } from "@/components/LoadingLink";
 export default function AdminPostsPage() {
   return (
     <div className="w-full max-w-6xl rounded-lg bg-light-bg p-6 shadow-xl dark:bg-dark-bg sm:p-8">
@@ -16,13 +15,13 @@ export default function AdminPostsPage() {
             記事の編集・削除を行います。
           </p>
         </div>
-        <Link
+        <LoadingLink
           href="/admin"
           className="flex items-center gap-2 rounded-md border bg-gray-50 px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
         >
           <ArrowLeft className="h-4 w-4" />
           ダッシュボードに戻る
-        </Link>
+        </LoadingLink>
       </div>
 
       <div className="overflow-x-auto">
@@ -59,9 +58,9 @@ export default function AdminPostsPage() {
                 </td>
                 <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
                   <div className="flex items-center justify-end space-x-4">
-                    <Link href={`/admin/posts/edit/${article.id}`} className="text-blue-500 hover:text-blue-700">
+                    <LoadingLink href={`/admin/posts/edit/${article.id}`} className="text-blue-500 hover:text-blue-700">
                       <Edit className="h-5 w-5" />
-                    </Link>
+                    </LoadingLink>
                     <button className="text-red-500 hover:text-red-700">
                       <Trash2 className="h-5 w-5" />
                     </button>
