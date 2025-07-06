@@ -82,3 +82,29 @@ def delete_article(article_id):
     else:
         # 記事が見つからなかった場合、404エラーを返す
         return jsonify({"error": "Article not found"}), 404
+    
+@app.route("/api/articles/<string:article_id>", methods=['PUT'])
+def update_article(article_id):
+    # グローバル変数としてdummy_articlesを扱うことを宣言
+    global dummy_articles
+    # フロントエンドから送られてきたJSONデータを取得
+    updated_data = request.get_json()
+
+    # 更新対象の記事を検索
+    article_index = next((index for index, article in enumerate(dummy_articles) if article["id"] == article_id), None)
+    
+    if article_index is not None:
+        # 記事が見つかった場合、内容を更新
+        dummy_articles[article_index]['title'] = updated_data.get('title')
+        dummy_articles[article_index]['category'] = updated_data.get('category')
+        dummy_articles[article_index]['content'] = updated_data.get('content')
+        dummy_articles[article_index]['description'] = updated_data.get('content', '')[:50] + "..."
+
+        updated_article = dummy_articles[article_index]
+        print("記事が更新されました:", updated_article)
+        
+        # 成功したことと、更新された記事データを返す
+        return jsonify(updated_article), 200
+    else:
+        # 記事が見つからなかった場合、404エラーを返す
+        return jsonify({"error": "Article not found"}), 404
