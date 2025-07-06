@@ -1,28 +1,50 @@
+// src/app/(main)/posts/[id]/page.tsx
+
 import { notFound } from "next/navigation";
-import { dummyArticles } from "@/data/article";
 import { Calendar, Tag } from "lucide-react";
 import ReactMarkdown from 'react-markdown';
-import remarkGfm from "remark-gfm";
+import remarkGfm from 'remark-gfm';
+import type { Article } from "@/types/article";
 
-// Next.jsがURLの `[id]` 部分を `params` オブジェクトとして渡してくれる
-export default function ArticlePostPage({ params }: { params: { id: string } }) {
-    // URLのIDを使って、記事の配列から該当する記事を探す
-    const article = dummyArticles.find((article) => article.id === params.id);
+// IDを指定して、バックエンドから単一の記事データを取得する関数
+async function getArticleById(id: string) {
+  try {
+    const res = await fetch(`http://localhost:5000/api/articles/${id}`, {
+      cache: 'no-store' 
+    });
 
-    // もし記事が見つからなかったら、404ページを表示する。
-    if (!article) {
-        notFound();
+    // 記事が見つからない場合(404)は、nullを返す
+    if (res.status === 404) {
+      return null;
     }
 
-    return (
-      <article className="container mx-auto max-w-screen-lg px-4 py-8">
-      {/* 記事タイトル */}
-      <h1 className="text-3xl font-bold mb-2 text-light-text-primary dark:text-dark-text-primary">
+    if (!res.ok) {
+      throw new Error('Failed to fetch article');
+    }
+    return res.json();
+  } catch (error) {
+    console.error("APIからの個別記事データ取得に失敗しました:", error);
+    return null; // エラーが発生した場合もnullを返す
+  }
+}
+
+// ページコンポーネントを非同期関数に変更
+export default async function ArticlePostPage({ params }: { params: { id: string } }) {
+  // URLのIDを使って、バックエンドから記事データを取得
+  const article: Article | null = await getArticleById(params.id);
+
+  // 記事データが取得できなかった場合、404ページを表示
+  if (!article) {
+    notFound();
+  }
+
+  return (
+    <article className="container mx-auto max-w-screen-lg px-4 py-8">
+      <h1 className="mb-2 text-3xl font-bold text-light-text-primary dark:text-dark-text-primary">
         {article.title}
       </h1>
 
-      {/* 日付とカテゴリー */}
-      <div className="flex items-center space-x-4 mb-8 text-sm text-light-text-secondary dark:text-dark-text-secondary">
+      <div className="mb-8 flex items-center space-x-4 text-sm text-light-text-secondary dark:text-dark-text-secondary">
         <div className="flex items-center space-x-1">
           <Calendar className="h-4 w-4" />
           <time dateTime={article.date}>{new Date(article.date).toLocaleDateString('ja-JP')}</time>
@@ -33,12 +55,11 @@ export default function ArticlePostPage({ params }: { params: { id: string } }) 
         </div>
       </div>
 
-      {/* 本文（ここは次のステップでMarkdownを表示するように変更します） */}
       <div className="prose max-w-none dark:prose-invert">
-         <ReactMarkdown remarkPlugins={[remarkGfm]}>
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>
           {article.content}
         </ReactMarkdown>
       </div>
     </article>
-    );
+  );
 }
