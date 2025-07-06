@@ -1,9 +1,49 @@
 // src/app/admin/posts/page.tsx
+"use client"; 
 
-import { dummyArticles } from "@/data/article";
+import { useState, useEffect } from "react";
 import { ArrowLeft, Edit, Trash2 } from "lucide-react";
 import { LoadingLink } from "@/components/LoadingLink";
+import type { Article } from "@/types/article";
+import { useRouter } from "next/navigation";
+
 export default function AdminPostsPage() {
+  const [articles, setArticles] = useState<Article[]>([]);
+  const router = useRouter();
+
+  // ページ読み込み時に記事データを取得する関数
+  const fetchArticles = async () => {
+    const res = await fetch('http://localhost:5000/api/articles', { cache: 'no-store' });
+    const data = await res.json();
+    setArticles(data);
+  };
+
+  useEffect(() => {
+    fetchArticles();
+  }, []);
+
+  // 削除ボタンの処理
+  const handleDelete = async (articleId: string) => {
+    if (!window.confirm("この記事を本当に削除しますか？この操作は元に戻せません。")) {
+      return;
+    }
+
+    try {
+      const res = await fetch(`http://localhost:5000/api/articles/${articleId}`, {
+        method: 'DELETE',
+      });
+
+      if (!res.ok) throw new Error('記事の削除に失敗しました。');
+
+      // UIから削除された記事を消す (ページを再読み込みせずに更新)
+      setArticles(articles.filter(article => article.id !== articleId));
+      alert('記事を削除しました。');
+    } catch (error) {
+      console.error(error);
+      alert('エラーが発生しました。');
+    }
+  };
+
   return (
     <div className="w-full max-w-6xl rounded-lg bg-light-bg p-6 shadow-xl dark:bg-dark-bg sm:p-8">
       <div className="mb-8 flex items-center justify-between">
@@ -43,7 +83,7 @@ export default function AdminPostsPage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 bg-light-bg dark:divide-gray-700 dark:bg-dark-bg">
-            {dummyArticles.map((article) => (
+            {articles.map((article) => (
               <tr key={article.id}>
                 <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-light-text-primary dark:text-dark-text-primary">
                   {article.title}
@@ -61,7 +101,7 @@ export default function AdminPostsPage() {
                     <LoadingLink href={`/admin/posts/edit/${article.id}`} className="text-blue-500 hover:text-blue-700">
                       <Edit className="h-5 w-5" />
                     </LoadingLink>
-                    <button className="text-red-500 hover:text-red-700">
+                    <button onClick={() => handleDelete(article.id)} className="text-red-500 hover:text-red-700">
                       <Trash2 className="h-5 w-5" />
                     </button>
                   </div>
