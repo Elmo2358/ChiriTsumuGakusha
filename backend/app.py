@@ -64,3 +64,21 @@ def create_article():
     dummy_articles.insert(0, new_article)
     print("新しい記事が作成されました:", new_article)
     return jsonify(new_article), 201
+
+@app.route("/api/articles/<string:article_id>", methods=['DELETE'])
+def delete_article(article_id):
+    # グローバル変数としてdummy_articlesを扱うことを宣言
+    global dummy_articles
+
+    # 削除対象の記事が存在するか確認
+    article = next((article for article in dummy_articles if article["id"] == article_id), None)
+    
+    if article:
+        # IDが一致しない記事だけで新しいリストを作成し、元のリストを置き換える
+        dummy_articles = [article for article in dummy_articles if article["id"] != article_id]
+        print("記事が削除されました:", article_id)
+        # 成功メッセージを返す
+        return jsonify({"success": True, "message": "Article deleted"}), 200
+    else:
+        # 記事が見つからなかった場合、404エラーを返す
+        return jsonify({"error": "Article not found"}), 404
