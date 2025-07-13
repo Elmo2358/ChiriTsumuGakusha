@@ -22,23 +22,27 @@ export default function EditPostPage({ params }: { params: { id: string } }) {
     const fetchArticle = async () => {
       try {
         const res = await fetch(`http://localhost:5000/api/articles/${params.id}`);
-        if (!res.ok) {
+        if (res.status === 404) {
           return notFound(); // 記事がなければ404
+        }
+        if (!res.ok) {
+          throw new Error("Failed to fetch article");
         }
         const article: Article = await res.json();
         setTitle(article.title);
         setCategory(article.category);
         setContent(article.content);
-        setMounted(true);
       } catch (error) {
         console.error(error);
-        return notFound();
+        alert("データの読み込みに失敗しました。");
+        router.push("/admin/posts");
+      } finally {
+        setMounted(true);
       }
     };
     fetchArticle();
-  }, [params.id]);
+  }, [params.id, router]);
 
-  // フォーム送信（更新）処理
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const updatedArticle = { title, category, content };
@@ -70,35 +74,35 @@ export default function EditPostPage({ params }: { params: { id: string } }) {
     <div className="w-full max-w-4xl">
       <div className="mb-8 flex items-center justify-between">
         <h1 className="text-3xl font-bold">記事を編集</h1>
-        <LoadingLink href="/admin/posts" className="flex items-center gap-2 ...">
+        <LoadingLink href="/admin/posts" className="flex items-center gap-2 rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-700 dark:text-dark-text-secondary dark:hover:bg-gray-600">
           <ArrowLeft className="h-4 w-4" />
           一覧に戻る
         </LoadingLink>
       </div>
       
+      {/* ↓↓↓ formタグにonSubmitを追加 ↓↓↓ */}
       <form className="space-y-6" onSubmit={handleSubmit}>
-        {/* ... (フォームの各入力欄はNewPostPageと同じなので省略) ... */}
         {/* タイトル */}
         <div>
-          <label htmlFor="title">タイトル</label>
-          <input id="title" value={title} onChange={(e) => setTitle(e.target.value)} required className="block w-full ..."/>
+          <label htmlFor="title" className="block text-sm font-medium">タイトル</label>
+          <input id="title" value={title} onChange={(e) => setTitle(e.target.value)} required className="block w-full rounded-md border-gray-300 bg-gray-100 px-3 py-2 shadow-sm focus:border-green-500 focus:ring-green-500 dark:border-gray-600 dark:bg-gray-700" />
         </div>
         {/* カテゴリー */}
         <div>
-          <label htmlFor="category">カテゴリー</label>
-          <input id="category" value={category} onChange={(e) => setCategory(e.target.value)} required className="block w-full ..."/>
+          <label htmlFor="category" className="block text-sm font-medium">カテゴリー</label>
+          <input id="category" value={category} onChange={(e) => setCategory(e.target.value)} required className="block w-full rounded-md border-gray-300 bg-gray-100 px-3 py-2 shadow-sm focus:border-green-500 focus:ring-green-500 dark:border-gray-600 dark:bg-gray-700" />
         </div>
         {/* 本文 */}
         <div>
-          <label>本文 (Markdown)</label>
-          <div data-color-mode={theme}>
+          <label className="block text-sm font-medium">本文 (Markdown)</label>
+          <div className="mt-1" data-color-mode={theme}>
             <MDEditor value={content} onChange={(val) => setContent(val || "")} height={500} preview="live" />
           </div>
         </div>
         {/* ボタン */}
         <div className="flex justify-end space-x-4">
-          <button type="button" className="...">キャンセル</button>
-          <button type="submit" className="...">更新する</button>
+          <button type="button" className="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50">キャンセル</button>
+          <button type="submit" className="inline-flex justify-center rounded-md border border-transparent bg-light-accent px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700">更新する</button>
         </div>
       </form>
     </div>
